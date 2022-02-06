@@ -16,6 +16,10 @@ window.addEventListener('resize',function(){
 	addBall();
 	maxWidth = window.innerWidth;
 	maxHeight = window.innerHeight;
+	canvas.width = maxWidth;
+	canvas.height = maxHeight;
+	memoryCanvas.width = maxWidth;
+	memoryCanvas.height = maxHeight;
 });
 
 class Ball{
@@ -36,11 +40,17 @@ class Ball{
 	}
 	update(){
 		memoryCtx.filter = 'blur(10px)';
+
 		if( this.x+this.px-this.size < 0 || this.x+this.px+this.size > maxWidth ){
 			this.px = -this.px;
 		}
 		if( this.y+this.py-this.size < 0 || this.y+this.py+this.size > maxHeight ){
 			this.py = -this.py;
+		}
+
+		if( this.x < 0 || this.x > maxWidth || this.y < 0 || this.y > maxHeight ){
+			this.x = (Math.random()*(maxWidth-this.size*2))+this.size;
+			this.y = (Math.random()*(maxHeight-this.size*2))+this.size;
 		}
 		this.x += this.px;
 		this.y += this.py;
