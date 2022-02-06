@@ -56,7 +56,7 @@ class Ball{
 			this.py = -this.py;
 		}
 
-		if( this.x < 0 || this.x > maxWidth || this.y < 0 || this.y > maxHeight ){
+		if( this.x -this.size < 0 || this.x+this.size > maxWidth || this.y-this.sisze < 0 || this.y+this.size > maxHeight ){
 			this.x = (Math.random()*(maxWidth-this.size*2))+this.size;
 			this.y = (Math.random()*(maxHeight-this.size*2))+this.size;
 		}
