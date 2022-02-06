@@ -53,14 +53,19 @@ function init(){
 	animate();
 }
 function addBall(){
-	balls = [];
-	const count = parseInt(maxWidth/100)+parseInt(maxHeight/100) ;
-	for(let i=0; i<count; i++){
-		let size = (Math.random()*35)+15;
-		let x = (Math.random()*(maxWidth-size*2))+size;
-		let y = (Math.random()*(maxHeight-size*2))+size;
-		let color = `#000`;
-		balls = [...balls,new Ball(x,y,size,color)];
+	let count = parseInt(maxWidth/100)+parseInt(maxHeight/100);
+	if( balls.length >= count ){
+		balls.splice(0,balls.length - count);
+		return;
+	}else{
+		const max = count-balls.length;
+		for(let i=0; i<max; i++){
+			let size = (Math.random()*35)+15;
+			let x = (Math.random()*(maxWidth-size*2))+size;
+			let y = (Math.random()*(maxHeight-size*2))+size;
+			let color = `#000`;
+			balls = [...balls,new Ball(x,y,size,color)];
+		}
 	}
 }
 function animate(){
