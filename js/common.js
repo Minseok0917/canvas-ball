@@ -4,14 +4,20 @@ const $img = document.getElementById('img')
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let balls = [];
+let maxWidth = window.innerWidth;
+let maxHeight =window.innerHeight;
 
+canvas.width = maxWidth;
+canvas.height = maxHeight;
+memoryCanvas.width = maxWidth;
+memoryCanvas.height = maxHeight;
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+window.addEventListener('resize',function(){
+	addBall();
+	maxWidth = window.innerWidth;
+	maxHeight = window.innerHeight;
+});
 
-
-memoryCanvas.width = window.innerWidth;
-memoryCanvas.height = window.innerHeight;
 class Ball{
 	constructor(x,y,size,color){
 		this.x = x;
@@ -19,8 +25,8 @@ class Ball{
 		this.size = size;
 		this.color = color;
 
-		this.px = (Math.random()*15)+1;
-		this.py = (Math.random()*15)+1;
+		this.px = (Math.random()*(maxWidth/200))+1;
+		this.py = (Math.random()*(maxHeight/100))+1;
 	}
 	draw(){
 		memoryCtx.beginPath();
@@ -30,10 +36,10 @@ class Ball{
 	}
 	update(){
 		memoryCtx.filter = 'blur(10px)';
-		if( this.x+this.px-this.size < 0 || this.x+this.px+this.size > memoryCanvas.width ){
+		if( this.x+this.px-this.size < 0 || this.x+this.px+this.size > maxWidth ){
 			this.px = -this.px;
 		}
-		if( this.y+this.py-this.size < 0 || this.y+this.py+this.size > memoryCanvas.height ){
+		if( this.y+this.py-this.size < 0 || this.y+this.py+this.size > maxHeight ){
 			this.py = -this.py;
 		}
 		this.x += this.px;
@@ -43,26 +49,30 @@ class Ball{
 }
 
 function init(){
-	for(let i=0; i<100; i++){
+	addBall();
+	animate();
+}
+function addBall(){
+	balls = [];
+	const count = parseInt(maxWidth/100)+parseInt(maxHeight/100) ;
+	for(let i=0; i<count; i++){
 		let size = (Math.random()*35)+15;
-		let x = (Math.random()*(memoryCanvas.width-size*2))+size;
-		let y = (Math.random()*(memoryCanvas.height-size*2))+size;
+		let x = (Math.random()*(maxWidth-size*2))+size;
+		let y = (Math.random()*(maxHeight-size*2))+size;
 		let color = `#000`;
 		balls = [...balls,new Ball(x,y,size,color)];
 	}
-	animate();
 }
 function animate(){
-	memoryCtx.clearRect(0,0,memoryCanvas.width,memoryCanvas.height);
+	memoryCtx.clearRect(0,0,maxWidth,maxHeight);
 	memoryCtx.fillStyle = '#fff';
-	memoryCtx.rect(0,0,memoryCanvas.width,memoryCanvas.height);
+	memoryCtx.rect(0,0,maxWidth,maxHeight);
 	memoryCtx.fill();
 
 	for(let ball of balls){
 		ball.update();
 	}
 
-	// $img.src = memoryCanvas.toDataURL();
 	ctx.filter = 'contrast(20)';
 	ctx.drawImage(memoryCanvas,0,0);	
 	
