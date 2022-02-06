@@ -1,6 +1,5 @@
 const memoryCanvas = document.createElement('canvas');
-const memoryCtx = memoryCanvas.getContext('2d') ;
-const $img = document.getElementById('img')
+const memoryCtx = memoryCanvas.getContext('2d');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let balls = [];
