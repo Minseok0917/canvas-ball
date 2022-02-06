@@ -22,6 +22,14 @@ window.addEventListener('resize',function(){
 	memoryCanvas.height = maxHeight;
 });
 
+document.addEventListener('click',function(e){
+	let size = (Math.random()*35)+15;
+	let x = e.offsetX;
+	let y = e.offsetY;
+	let color = `#000`;
+	balls = [...balls,new Ball(x,y,size,color)];
+});
+
 class Ball{
 	constructor(x,y,size,color){
 		this.x = x;
