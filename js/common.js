@@ -25,7 +25,8 @@ document.addEventListener('click',function(e){
 	let size = (Math.random()*35)+15;
 	let x = e.offsetX;
 	let y = e.offsetY;
-	let color = `#000`;
+	let color = '#'+Math.round(Math.random() * 0xFFFFFF).toString(16);
+	// let color = `#000`;
 	balls = [...balls,new Ball(x,y,size,color)];
 });
 
@@ -95,7 +96,7 @@ function animate(){
 		ball.update();
 	}
 
-	ctx.filter = 'contrast(20)';
+	ctx.filter = 'contrast(60)';
 	ctx.drawImage(memoryCanvas,0,0);	
 	
 	
